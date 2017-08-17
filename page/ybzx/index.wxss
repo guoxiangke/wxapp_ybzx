@@ -1,0 +1,52 @@
+/**index.wxss**/
+
+/*album begin*/
+.album .page-section-spacing{
+  margin-top: 60rpx;
+  padding: 20rpx;
+}
+.scroll-view_H{
+  white-space: nowrap;
+}
+.scroll-view-item_H{
+  display: inline-block;
+  width: 90%;
+  padding-right: 20rpx;
+}
+.album image,
+.scroll-view-item_H{
+  height: 150px;
+}
+/*album end*/
+
+/*slide begin*/
+.swiper-item{
+  display: block;
+}
+.swiper-item image{
+	width: 100%;
+}
+.swiper-item,.swiper-item image{
+  height: 150px;
+}
+/*slide end */
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}

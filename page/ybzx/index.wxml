@@ -1,0 +1,56 @@
+<import src="../common/foot.wxml" />
+
+<!--index.wxml-->
+<view class="container">
+
+  <view class="page-body">
+    <view class="page-section slide">
+      <view class="page-section swiper">
+        <swiper indicator-dots="{{indicatorDots}}"
+          autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+          <block wx:for="{{slideImages}}" wx:key="*this">
+            <swiper-item>
+              <view class="swiper-item">
+                <image class="image" src="{{item}}"/>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+    </view>
+    <view class="page-section album">
+      <view class="page-section-title">
+        <text>最新专辑</text>
+      </view>
+      <view class="page-section-spacing">
+        <scroll-view class="scroll-view_H" scroll-x="true" bindscroll="scroll" style="width: 100%">
+          <view id="demo1" class="scroll-view-item_H demo-text-1">
+            <image src="./resources/images/album_category_1_art_faith_life.png" background-size="cover"></image>
+          </view>
+          <view id="demo2"  class="scroll-view-item_H demo-text-2">
+            <image src="./resources/images/album_category_2_art_healthy_living.png" background-size="cover"></image>
+          </view>
+          <view id="demo3" class="scroll-view-item_H demo-text-3">
+            <image src="./resources/images/album_category_3_art_grow_learn.png" background-size="cover"></image>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="userinfo">
+        <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+        <block wx:else>
+          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="usermotto">
+        <text class="user-motto">{{motto}}</text>
+      </view>
+    </view>
+  </view>
+
+  <template is="foot" />
+</view>

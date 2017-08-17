@@ -1,6 +1,18 @@
+
+.section-foot{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #F8F8F8;
+  font-size: 16rpx;
+  line-height: 1.6;
+  padding: 16rpx 0;
+}
+/*ybzx end!*/
+
 /* reset */
 page {
-  background-color: #F8F8F8;
+  background-color: #fff;
   height: 100%;
   font-size: 32rpx;
   line-height: 1.6;

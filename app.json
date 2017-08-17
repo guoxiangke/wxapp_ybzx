@@ -1,5 +1,8 @@
 {
   "pages": [
+    "page/ybzx/pages/grace365/grace365", 
+    "page/ybzx/index",
+
     "page/component/index",
 
     "page/component/pages/view/view",
@@ -93,6 +96,16 @@
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [{
+      "pagePath": "page/ybzx/index",
+      "iconPath": "image/icon_component.png",
+      "selectedIconPath": "image/icon_component_HL.png",
+      "text": "首页"
+    },{
+      "pagePath": "page/ybzx/pages/grace365/grace365",
+      "iconPath": "image/icon_component.png",
+      "selectedIconPath": "image/icon_component_HL.png",
+      "text": "恩典365"
+    },{
       "pagePath": "page/component/index",
       "iconPath": "image/icon_component.png",
       "selectedIconPath": "image/icon_component_HL.png",
@@ -101,7 +114,7 @@
       "pagePath": "page/API/index",
       "iconPath": "image/icon_API.png",
       "selectedIconPath": "image/icon_API_HL.png",
-      "text": "接口"
+      "text": "我的"
     }]
   },
   "networkTimeout": {

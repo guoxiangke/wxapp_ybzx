@@ -1,0 +1,57 @@
+<import src="../../../common/foot.wxml" />
+
+<!--index.wxml-->
+<view class="container">
+
+  <view class="page-body">
+    <view class="page-section">
+      <video id="myVideo" src="https://www.fuyin.tv/content/download/movid/{{currentVideo.ablumId}}/urlid/{{currentVideo.videoID}}?q=1.mp4" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://www.hvsha-tpehoc.com/UploadFiles/Info/2017/03/09/86fa8e90-91cc-4817-a232-eedf4fa400b7.jpg"></video>
+      <view class="video-action">
+        <view class="statics">
+          <text>播放：365次</text>
+        </view>
+        <view class="actions">
+          <view class="action">
+            <image src="../../resources/icos/favorite.png" background-size="cover"></image>
+            <text class="favorite js-add-favorite " data-user_favored="0">收藏</text>
+          </view>
+          <view class="action">
+            <image src="../../resources/icos/share.png" background-size="cover"></image>
+            <text class="share js-pop">分享</text>
+          </view>
+          <view class="action">
+            <image src="../../resources/icos/like.png" background-size="cover"></image>
+            <text class="like likeAjax " data-user_liked="0">5</text>
+          </view>
+        </view>
+      </view>
+    </view>
+ 
+
+    <view class="page-section">
+      <view class="btn-area">
+        <button type="primary" plain="true">下一集</button>
+      </view>
+      <view class="video-info">
+        <text class="title">{{currentVideo.title}}</text>
+        <text class="statics">{{currentVideo.date}} 恩典365</text>
+      </view>
+      <view class="article">
+        <text class="quotes" selectable="true">恩典365，三百六十五天，天天一起活在神的爱和恩典里面。</text>
+        <text class="text" selectable="true">{{currentVideoContents.section1}}</text>
+
+        <text class="quotes" selectable="true">{{currentVideoContents.section2}}</text>
+      </view>
+    </view> 
+    <view class="page-section">
+      <view class="page-section-title">
+        <text>最近观看</text>
+      </view>
+      <view class="page-section-spacing">
+        user1 usr2
+      </view>
+    </view>
+
+    <template is="foot" />
+  </view>
+</view>
