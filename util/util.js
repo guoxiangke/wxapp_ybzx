@@ -29,8 +29,17 @@ function formatLocation(longitude, latitude) {
     latitude: latitude.toString().split('.')
   }
 }
+// 20170818 
+function getFormatDate(format="full",split='', MyDate=new Date()){
+  var month = ('0' + (MyDate.getMonth()+1)).slice(-2);
+  var day = ('0' + MyDate.getDate()).slice(-2)
+  var year = (format=='full')?MyDate.getFullYear():MyDate.getYear().toString().substr(1)
+  return [year,month,day].join(split);
+}
 
 module.exports = {
+  getFormatDate: getFormatDate,
+
   formatTime: formatTime,
   formatLocation: formatLocation
 }
