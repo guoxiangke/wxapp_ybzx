@@ -5,7 +5,7 @@
 
   <view class="page-body">
     <view class="page-section">
-      <video id="myVideo" src="{{currentVideoUrl}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
+      <video id="myVideo" autoplay="true" src="{{currentVideoUrl}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
       <view class="video-action"  wx:if="{{0}}">
         <view class="statics">
           <text>播放：{{currentVideo.currentVideoIndex}}次</text>
@@ -35,7 +35,7 @@
         </view>
       </view>
     </view>
- 
+
 
     <view class="page-section">
       <view class="btn-area">
@@ -51,7 +51,7 @@
 
         <text class="quotes" selectable="true">{{currentVideoContents.section2}}</text>
       </view>
-    </view> 
+    </view>
     <!-- <view class="page-section">
       <view class="page-section-title">
         <text>最近观看</text>

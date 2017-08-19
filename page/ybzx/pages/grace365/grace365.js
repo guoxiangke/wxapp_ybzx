@@ -20,7 +20,7 @@ Page({
 			console.log(playid,'options:playid')
 		}
 		// 1.check local data. if newest! no update else update.
-		
+
 		var update = false;
 		try {
 		  var value = wx.getStorageSync('playlist_grace365_updateTime')
@@ -41,7 +41,7 @@ Page({
 	      success: function(res) {
 					var str = res.data;
 					str = str.substr(str.indexOf('am-padding-top-xs')+1,str.lastIndexOf('am-padding-top-xs')+500);
-					var count =0; 
+					var count =0;
 					var pos;
 					var title;
 					var time;
@@ -52,12 +52,12 @@ Page({
 						pos = str.indexOf('am-padding-top-xs')
 						str = str.substr(pos+1);
 						var find = str.substr(0,str.indexOf('观看'))
-						
+
 						href  = find.match(/href="([^"]+)/)[1]
 						var day = find.match(/am-text-truncate">(\S+)/)[1]
-						
+
 						var title = find.match(/天 ([^<]+)/)[1]
-						
+
 						time = title.match(/\d+/)[0]
 						title = title.replace(time,'').replace('恩典365','')
 						ids= href.match(/\d+/g)
@@ -80,7 +80,7 @@ Page({
 
 		//init last video
 		// var value = wx.getStorageSync('playlist_grace365')
-		
+
 		wx.getStorage({
 		  key: 'playlist_grace365',
 		  fail: function(res){
@@ -89,7 +89,7 @@ Page({
 		  success: function(res) {
 		  	var currentVideoIndex = (playid!='last'?playid:res.data.length-1);
 		  	setCurrentVideo(res.data,currentVideoIndex)
-		  } 
+		  }
 		})
 
 		//init contents form https://api.yongbuzhixi.com/api/wxapp/grace365
@@ -109,7 +109,7 @@ Page({
 									str = str.substr(pos+'<section powered-by="xiumi.us">'.length);
 									var nextpos = str.indexOf('<section powered-by="xiumi.us"');
 									currentVideoContents.section1 = str.substr(0,nextpos).replace(/<(?:.|\n)*?>/gm, '')
-									currentVideoContents.section2 = str.substr(nextpos).replace(/<(?:.|\n)*?>/gm, '') 
+									currentVideoContents.section2 = str.substr(nextpos).replace(/<(?:.|\n)*?>/gm, '')
 
 									that.setData({
 							        currentVideoContents : currentVideoContents
@@ -126,7 +126,7 @@ Page({
 			    })
 				}
 
-				
+
 			}
 		})
 		//end of get contents for api.ybzx
@@ -139,27 +139,42 @@ Page({
 	    })
 	    setCurrentVideoUrl(currentVideo['ablumId'],currentVideo['videoId']);
   	}
+
 	  function setCurrentVideoUrl(ablumId,videoId){
 			// https://www.fuyin.tv/html/2784/47133.html
 			// https://m.fuyin.tv/movie/player/movid/2784/urlid/45053.html
-			// var url = 'https://www.fuyin.tv/html/'+that.data.currentVideo.ablumId+'/'+that.data.currentVideo.videoId+'.html'; 
-			var url = 'https://m.fuyin.tv/movie/player/movid/'+ablumId+'/urlid/'+videoId+'.html'; 
+			// var url = 'https://www.fuyin.tv/html/'+that.data.currentVideo.ablumId+'/'+that.data.currentVideo.videoId+'.html';
+			var url = 'https://m.fuyin.tv/movie/player/movid/'+ablumId+'/urlid/'+videoId+'.html';
 			wx.request({
 	      url: url,
 	      success: function(res) {
 					var str = res.data;
-					var pos1 = str.indexOf('var video=[');
+					var pos1 = str.indexOf('f:');
 					var pos2 = str.indexOf('start_player()');
 					str = str.substr(pos1, pos2-pos1);
 
-					str  = str.match(/video=\[\'(\S+)/)[1].replace("']",'')
+					var currentVideoUrl  = str.match(/f:\'([^\']+)/)[1]
+
 					// http://db.http.fuyin.tv:8016/html5/
-	      	var currentVideoUrl = str.replace('http://db.m.fuyin.tv:8015/mdb/','https://downs.fuyin.tv/pcdown/')
+	      	// var currentVideoUrl = currentVideoUrl.replace('http://db.m.fuyin.tv:8015/mdb/','https://downs.fuyin.tv/pcdown/')
 	      	// console.log(currentVideoUrl)
 	      	// return currentVideoUrl
-		      that.setData({
-			        currentVideoUrl : currentVideoUrl
-			    })
+
+          that.setData({
+              currentVideoUrl : currentVideoUrl
+          })
+          // wx.request({
+          //   url: currentVideoUrl,
+          //   fail: function(res){
+          //     console.log(res)
+          //   },
+          //   success: function(res) {
+          //     console.log(res)
+          //     that.setData({
+          //         currentVideoUrl : currentVideoUrl
+          //     })
+          //   }
+          // })
 				}
 			})
 			//end of set video url!
@@ -223,7 +238,7 @@ Page({
         console.log('grace365?id='+ that.data.currentVideo.currentVideoIndex);
       },
       fail: function(res) {
-        console.log('转发失败','grace365?id='+ that.data.currentVideo.currentVideoIndex)// 
+        console.log('转发失败','grace365?id='+ that.data.currentVideo.currentVideoIndex)//
       }
     }
   },
