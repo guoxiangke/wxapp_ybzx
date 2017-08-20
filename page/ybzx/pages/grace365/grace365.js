@@ -107,7 +107,7 @@ Page({
 									var str = str.substr(pos+'<section powered-by="xiumi.us">'.length);
 									pos = str.indexOf('<section powered-by="xiumi.us"')
 									str = str.substr(pos+'<section powered-by="xiumi.us">'.length);
-									var nextpos = str.indexOf('<section powered-by="xiumi.us"');
+									var nextpos = str.indexOf('[经文');
 									currentVideoContents.section1 = str.substr(0,nextpos).replace(/<(?:.|\n)*?>/gm, '')
 									currentVideoContents.section2 = str.substr(nextpos).replace(/<(?:.|\n)*?>/gm, '')
 

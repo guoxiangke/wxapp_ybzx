@@ -5,7 +5,7 @@
 
   <view class="page-body">
     <view class="page-section">
-      <video id="myVideo" autoplay="true" src="{{currentVideoUrl}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
+      <video id="myVideo" autoplay="false" src="{{currentVideoUrl}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
       <view class="video-action"  wx:if="{{0}}">
         <view class="statics">
           <text>播放：{{currentVideo.currentVideoIndex}}次</text>
@@ -38,18 +38,17 @@
 
 
     <view class="page-section">
-      <view class="btn-area">
-        <button type="primary" plain="true" id="playNext" data-current="{{currentVideo.currentVideoIndex}}" bindtap="playNext" >下一集</button>
-      </view>
       <view class="video-info">
         <text class="title">{{currentVideo.title}}</text>
         <text class="statics">{{currentVideo.date}} 恩典365</text>
       </view>
-      <view class="article">
-        <text class="quotes" selectable="true">恩典365，三百六十五天，天天一起活在神的爱和恩典里面。</text>
+      <scroll-view  scroll-y="true" style="height: 500rpx;" enable-back-to-top="true"  class="article">
         <text class="text" selectable="true">{{currentVideoContents.section1}}</text>
 
         <text class="quotes" selectable="true">{{currentVideoContents.section2}}</text>
+      </scroll-view>
+      <view class="btn-area playNext">
+        <button  class="mini-btn" type="primary" size="mini"  id="playNext" data-current="{{currentVideo.currentVideoIndex}}" bindtap="playNext" >下一集</button>
       </view>
     </view>
     <!-- <view class="page-section">

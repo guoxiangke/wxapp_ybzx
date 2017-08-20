@@ -48,3 +48,10 @@ video{
 	margin-bottom: 30rpx;
 	margin-top: 30rpx;
 }
+
+.playNext{
+  position: fixed;
+  top: 1000rpx;
+  left: 0;
+
+}
