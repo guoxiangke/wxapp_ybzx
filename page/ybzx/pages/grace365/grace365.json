@@ -1,3 +1,5 @@
 {
-    "navigationBarTitleText": "恩典365-每日更新"
+    "navigationBarTitleText": "恩典365-每日更新",
+    "navigationBarBackgroundColor": "#ef4341",
+    "navigationBarTextStyle": "white"
 }

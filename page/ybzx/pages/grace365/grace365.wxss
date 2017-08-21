@@ -7,7 +7,7 @@ video{
 	padding: 10rpx 30rpx;
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #666;
   font-size: 22rpx;
 }
 .video-action .actions{
@@ -24,9 +24,13 @@ video{
 	height: 10px;
 	margin-right: 10rpx;
 }
-.video-info , .article{
+.video-head,
+.article{
 	padding-right: 30rpx;
 	padding-left: 30rpx;
+}
+.video-info,
+.article{
   display: flex;
   flex-direction: column;
 }
@@ -38,20 +42,43 @@ video{
   letter-spacing:.1em;
 }
 
-.article .text{
+.article text{
+	display: block;
 	line-height: 2em;
 	text-align:justify
 }
 .article .quotes{
-	border-left: 5px solid #999;
+	border-left: 3px solid red;
 	padding-left: 10rpx;
 	margin-bottom: 30rpx;
 	margin-top: 30rpx;
+	line-height: 1.5em;
+}
+.article{
+	width: auto;
 }
 
-.playNext{
-  position: fixed;
-  top: 1000rpx;
-  left: 0;
+.video-head{
+	display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
 
+.playNext button{
+	margin: 0;
+}
+
+.playNext button[type="primary"][plain]{
+	color:#ef4341;
+	border:1px solid #ef4341;
+}
+
+view.before-scroll {
+	border-top: 3rpx dashed  #ef4341;
+	/*border-image: -webkit-linear-gradient(#fff, #000) 30 30;*/
+}
+
+.todelete{
+	margin-bottom: 30rpx;
 }

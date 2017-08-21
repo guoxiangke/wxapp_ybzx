@@ -1,6 +1,6 @@
 <template name="foot">
 <view class="section-foot" hover-class="none">
-     <text>主内公众云提供技术支持</text>
+     <text>永不止息提供技术支持</text>
      <text>www.yongbuzhixi.com</text>
 </view>
 </template>
