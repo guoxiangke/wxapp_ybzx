@@ -59,9 +59,6 @@ video{
 }
 
 .video-head{
-	display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 30rpx;
 }
 
@@ -81,4 +78,30 @@ view.before-scroll {
 
 .todelete{
 	margin-bottom: 30rpx;
+}
+.action-share button[size="mini"]{
+	font-size: 12px;
+	display: inline;
+	padding: 0;
+	line-height: 0;
+	border-radius: none;
+	border: none;
+	padding-left: 15px;
+	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/share.png') 0 center no-repeat;
+	background-size: 10px;
+}
+.action-share.shared button[size="mini"]{
+	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/share1.png') 0 center no-repeat;
+	background-size: 10px;
+	color: grey;
+}
+.action-share button[size="mini"]::after{
+	width: 0;
+	height: 0;
+}
+
+.flex-row{
+	display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

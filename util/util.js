@@ -36,10 +36,17 @@ function getFormatDate(format="full",split='', MyDate=new Date()){
   var year = (format=='full')?MyDate.getFullYear():MyDate.getYear().toString().substr(1)
   return [year,month,day].join(split);
 }
+// 是否为空对象
+function isEmptyObject(e) {
+    var t;
+    for (t in e)
+        return !1;
+    return !0
+}
 
 module.exports = {
   getFormatDate: getFormatDate,
-
+  isEmptyObject:isEmptyObject,
   formatTime: formatTime,
   formatLocation: formatLocation
 }

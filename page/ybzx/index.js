@@ -25,7 +25,11 @@ Page({
       url: '../logs/logs'
     })
   },
+  onLaunch: function() {
+  },
   onLoad: function () {
+
+
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -54,10 +58,28 @@ Page({
     }
   },
   getUserInfo: function(e) {
+    console.log(e,'ee');
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  onShareAppMessage: function (res) {
+    var that = this
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '恩典365',
+      path: 'grace365',
+      success: function(res) {
+        console.log('success?id=');
+      },
+      fail: function(res) {
+        console.log('转发失败','fail?id=')
+      }
+    }
   }
 })

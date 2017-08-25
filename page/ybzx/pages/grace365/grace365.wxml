@@ -4,41 +4,45 @@
 <view class="container">
 
   <view class="page-body">
-    <view class="page-section todelete">
-      <video id="myVideo" src="{{currentVideoUrl}}" autoplay binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
-      <view class="video-action"  wx:if="{{0}}">
+    <view class="page-section todelete autoplay">
+      <video id="myVideo" src="{{currentVideoUrl}}"  objectFit="fill" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
+      <view class="video-action"  wx:if="{{1}}">
         <view class="statics">
           <text>播放：{{currentVideo.currentVideoIndex}}次</text>
         </view>
         <view class="actions">
-          <view class="action" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
-            <image src="../../resources/icos/favorite.png" background-size="cover"></image>
-            <text class="favorite js-add-favorite " data-user_favored="0">收藏</text>
+          <view class="action action-share {{isShared?'shared':''}}" bindtap="tapShare">
+            <button open-type="share" class="mini-btn" type="default" size="mini">分享</button>
+          </view>
+
+          <view class="flex-row" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+            <view class="action">
+              <image src="../../resources/icos/favorite.png" background-size="cover"></image>
+              <text class="favorite js-add-favorite " data-user_favored="0">收藏</text>
+            </view>
+            <view class="action">
+              <image src="../../resources/icos/like.png" background-size="cover"></image>
+              <text class="like likeAjax " data-user_liked="0">{{500-currentVideo.currentVideoIndex}}</text>
+            </view>
           </view>
 
           <block wx:else>
             <view class="action">
               <image src="../../resources/icos/favorite.png" background-size="cover"></image>
-              <text class="favorite js-add-favorite " data-user_favored="0">收藏2</text>
+              <text class="favorite js-add-favorite " data-user_favored="0">收藏3</text>
+            </view>
+            <view class="action">
+              <image src="../../resources/icos/like.png" background-size="cover"></image>
+              <text class="like likeAjax " data-user_liked="0">{{500}}</text>
             </view>
           </block>
-
-
-          <view class="action" bindtap="tapShare">
-            <image src="../../resources/icos/share.png" background-size="cover"></image>
-            <text class="share js-pop">分享</text>
-          </view>
-          <view class="action">
-            <image src="../../resources/icos/like.png" background-size="cover"></image>
-            <text class="like likeAjax " data-user_liked="0">{{500-currentVideo.currentVideoIndex}}</text>
-          </view>
         </view>
       </view>
     </view>
 
 
     <view class="page-section">
-      <view class="video-head">
+      <view class="video-head flex-row">
         <view class="video-info">
           <text class="title">{{currentVideo.title}}</text>
           <text class="statics">{{currentVideo.date}} 恩典365</text>

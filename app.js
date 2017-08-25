@@ -1,39 +1,19 @@
 const openIdUrl = require('./config').openIdUrl
 
 App({
+  globalData: {
+    userInfo: null,
+    hasLogin: false,
+    openid: null
+  },
   onLaunch: function () {
     console.log('App Launch')
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
-      }
-    })
   },
   onShow: function () {
     console.log('App Show')
   },
   onHide: function () {
     console.log('App Hide')
-  },
-  globalData: {
-    userInfo: null,
-    hasLogin: false,
-    openid: null
   },
   // lazy loading openid
   getUserOpenId: function(callback) {
@@ -66,5 +46,24 @@ App({
         }
       })
     }
+  },
+  getOpenID: function(){
+    wx.login({
+      success: function(res) {
+        if (res.code) {
+          //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+          wx.request({
+            url: 'https://wxapi.d.yongbuzhixi.com/api/openid/'+res.code, //仅为示例，并非真实的接口地址
+            success: function(res) {
+              var app = getApp()
+              app.globalData.openid = res.data.openid
+              console.log(app.globalData)
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
+        }
+      }
+    });
   }
 })

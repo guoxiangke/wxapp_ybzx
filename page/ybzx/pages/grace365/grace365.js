@@ -8,6 +8,7 @@ Page({
 
       userInfo: {},
 	    hasUserInfo: false,
+	    isShared: false,
 	    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
 
@@ -17,7 +18,6 @@ Page({
 		var today = util.getFormatDate();//20170818
 		if('id' in options ){
 			playid = options.id;
-			console.log(playid,'options:playid')
 		}
 		// 1.check local data. if newest! no update else update.
 
@@ -35,34 +35,11 @@ Page({
 		}
 
 		if(update){
-			var url = 'https://m.fuyin.tv/movie/detail/movid/2784.html';
+			var url = 'https://wxapi.d.yongbuzhixi.com/api/fuyin/get365list';
 		  wx.request({
 	      url: url,
 	      success: function(res) {
-					var str = res.data;
-					str = str.substr(str.indexOf('am-padding-top-xs')+1,str.lastIndexOf('am-padding-top-xs')+500);
-					var count =0;
-					var pos;
-					var title;
-					var time;
-					var href;
-					var ids
-					var items =[];
-					while(str.indexOf('am-padding-top-xs') !== -1){
-						pos = str.indexOf('am-padding-top-xs')
-						str = str.substr(pos+1);
-						var find = str.substr(0,str.indexOf('观看'))
-
-						href  = find.match(/href="([^"]+)/)[1]
-						var day = find.match(/am-text-truncate">(\S+)/)[1]
-
-						var title = find.match(/天 ([^<]+)/)[1]
-
-						time = title.match(/\d+/)[0]
-						title = title.replace(time,'').replace('恩典365','')
-						ids= href.match(/\d+/g)
-						items[count++] = {title:title,date:time,ablumId:ids[0],videoId:ids[1]}
-					}
+					var items = res.data;
 					wx.setStorageSync('playlist_grace365',items)
 					wx.setStorage({
 					  key:"playlist_grace365_updateTime",
@@ -91,45 +68,26 @@ Page({
 		  	setCurrentVideo(res.data,currentVideoIndex)
 		  }
 		})
-
-		//init contents form https://api.yongbuzhixi.com/api/wxapp/grace365
-	  wx.request({
-      url: 'https://api.yongbuzhixi.com/api/wxapp/grace365',
-      success: function(res) {
-				var currentVideoContents = {};
-				currentVideoContents.section1 = '暂无内容'
-				currentVideoContents.section2 = '来做小🐝吧\r\n每日从公众号里复制图文链接发给永不止息公众号即可。'
-				res.data.forEach(function(el){
-					if(el.title.indexOf(that.data.currentVideo.date) !== -1){
-							var str = el.body;
-							if(str.indexOf('<section powered-by="xiumi.us"') !== -1){
-									var pos = str.indexOf('<section powered-by="xiumi.us"')
-									var str = str.substr(pos+'<section powered-by="xiumi.us">'.length);
-									pos = str.indexOf('<section powered-by="xiumi.us"')
-									str = str.substr(pos+'<section powered-by="xiumi.us">'.length);
-									var nextpos = str.indexOf('[经文');
-									currentVideoContents.section1 = str.substr(0,nextpos).replace(/<(?:.|\n)*?>/gm, '')
-									currentVideoContents.section2 = str.substr(nextpos).replace(/<(?:.|\n)*?>/gm, '')
-
-									that.setData({
-							        currentVideoContents : currentVideoContents
-							    })
-							}else{
-								console.log('解析htmlof xiumi form api error！')
-							}
-
-					}
-				})
-				if(currentVideoContents.section1 == '暂无内容'){
+		function setCurrentVideoContent(videoDate,that){
+			//init contents form https://api.yongbuzhixi.com/api/wxapp/grace365
+			wx.showNavigationBarLoading()
+			var url = 'https://wxapi.d.yongbuzhixi.com/api/fuyin/get365content/'+videoDate;
+			console.log(url);
+		  wx.request({
+	      url: url,
+	      success: function(res) {
+					var currentVideoContents = res.data;
+					console.log(currentVideoContents);
 					that.setData({
 			        currentVideoContents : currentVideoContents
 			    })
+				},
+				complete : function(res){
+					wx.hideNavigationBarLoading()
 				}
-
-
-			}
-		})
-		//end of get contents for api.ybzx
+			})
+			//end of get contents for api.ybzx
+		}
 
 	  function setCurrentVideo(allVideos,currentVideoIndex){
 	  	var currentVideo = allVideos[currentVideoIndex]
@@ -137,6 +95,7 @@ Page({
 			that.setData({
 	        currentVideo : currentVideo
 	    })
+	    setCurrentVideoContent(currentVideo.date,that);
 	    setCurrentVideoUrl(currentVideo['ablumId'],currentVideo['videoId']);
   	}
 
@@ -144,37 +103,15 @@ Page({
 			// https://www.fuyin.tv/html/2784/47133.html
 			// https://m.fuyin.tv/movie/player/movid/2784/urlid/45053.html
 			// var url = 'https://www.fuyin.tv/html/'+that.data.currentVideo.ablumId+'/'+that.data.currentVideo.videoId+'.html';
-			var url = 'https://m.fuyin.tv/movie/player/movid/'+ablumId+'/urlid/'+videoId+'.html';
+			var url = 'https://wxapi.d.yongbuzhixi.com/api/fuyin/get365videourl/'+ablumId+'/'+videoId;
 			wx.request({
 	      url: url,
 	      success: function(res) {
 					var str = res.data;
-					var pos1 = str.indexOf('f:');
-					var pos2 = str.indexOf('start_player()');
-					str = str.substr(pos1, pos2-pos1);
-
-					var currentVideoUrl  = str.match(/f:\'([^\']+)/)[1]
-
-					// http://db.http.fuyin.tv:8016/html5/
-	      	// var currentVideoUrl = currentVideoUrl.replace('http://db.m.fuyin.tv:8015/mdb/','https://downs.fuyin.tv/pcdown/')
-	      	// console.log(currentVideoUrl)
-	      	// return currentVideoUrl
 
           that.setData({
-              currentVideoUrl : currentVideoUrl
+              currentVideoUrl : str.url+'?k='+str.k+'&e='+str.e
           })
-          // wx.request({
-          //   url: currentVideoUrl,
-          //   fail: function(res){
-          //     console.log(res)
-          //   },
-          //   success: function(res) {
-          //     console.log(res)
-          //     that.setData({
-          //         currentVideoUrl : currentVideoUrl
-          //     })
-          //   }
-          // })
 				}
 			})
 			//end of set video url!
@@ -182,12 +119,14 @@ Page({
 
 
 	  //user info begin
+	  console.log(app.globalData.userInfo);
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
     } else if (this.data.canIUse){
+    	console.log('canIUse',this.data.canIUse);
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -212,6 +151,7 @@ Page({
 
   },
   playNext: function(event){
+  	this.videoContext.pause();
   	wx.navigateTo({
   		url: 'grace365?id='+ (event.target.dataset.current-1).toString()
   	})
@@ -220,7 +160,6 @@ Page({
   	console.log(event)
   },
   tapShare: function(event){
-  	console.log(event)
   	wx.showShareMenu({
 		  withShareTicket: true
 		})
@@ -232,13 +171,16 @@ Page({
       console.log(res.target)
     }
     return {
-      title: '恩典365'+that.data.currentVideo.title,
-      path: 'grace365?id='+ that.data.currentVideo.currentVideoIndex,
+      title: '恩典365-'+that.data.currentVideo.date,
+      path: '/page/ybzx/pages/grace365/grace365?id='+ that.data.currentVideo.currentVideoIndex,
       success: function(res) {
-        console.log('grace365?id='+ that.data.currentVideo.currentVideoIndex);
+        console.log('分享成功！');
+        that.setData({
+            isShared: true
+        })
       },
       fail: function(res) {
-        console.log('转发失败','grace365?id='+ that.data.currentVideo.currentVideoIndex)//
+        console.log('转发失败')
       }
     }
   },
@@ -248,6 +190,46 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  onReady: function (res) {
+    this.videoContext = wx.createVideoContext('myVideo')
+  },
+  // 检测授权状态
+	checkSettingStatu: function(cb) {
+    var that = this;
+    // 判断是否是第一次授权，非第一次授权且授权失败则进行提醒
+    wx.getSetting({
+      success: function success(res) {
+          console.log(res.authSetting);
+          var authSetting = res.authSetting;
+          if (util.isEmptyObject(authSetting)) {
+              console.log('首次授权');
+          } else {
+              console.log('不是第一次授权', authSetting);
+              // 没有授权的提醒
+              if (authSetting['scope.userInfo'] === false) {
+                  wx.showModal({
+                      title: '用户未授权',
+                      content: '如需正常使用阅读记录功能，请按确定并在授权管理中选中“用户信息”，然后点按确定。最后再重新进入小程序即可正常使用。',
+                      showCancel: false,
+                      success: function (res) {
+                          if (res.confirm) {
+                              console.log('用户点击确定')
+                              wx.openSetting({
+                                  success: function success(res) {
+                                      console.log('openSetting success', res.authSetting);
+                                  }
+                              });
+                          }
+                      }
+                  })
+              }
+          }
+      }
+    });
+	},
+	onShow: function(){
+    this.checkSettingStatu();
   }
 
 
