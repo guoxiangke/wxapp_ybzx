@@ -77,7 +77,6 @@ Page({
 	      url: url,
 	      success: function(res) {
 					var currentVideoContents = res.data;
-					console.log(currentVideoContents);
 					that.setData({
 			        currentVideoContents : currentVideoContents
 			    })
@@ -168,7 +167,6 @@ Page({
 		var that = this
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res.target)
     }
     return {
       title: '恩典365-'+that.data.currentVideo.date,
@@ -200,7 +198,6 @@ Page({
     // 判断是否是第一次授权，非第一次授权且授权失败则进行提醒
     wx.getSetting({
       success: function success(res) {
-          console.log(res.authSetting);
           var authSetting = res.authSetting;
           if (util.isEmptyObject(authSetting)) {
               console.log('首次授权');
