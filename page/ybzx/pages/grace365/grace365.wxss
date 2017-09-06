@@ -42,12 +42,15 @@ video{
   letter-spacing:.1em;
 }
 
-.article text{
+.article text,
+.article .text{
 	display: block;
 	line-height: 2em;
 	text-align:justify
 }
-.article .quotes{
+
+.article .quotes,
+.article .text .wxParse-p:last-child{
 	border-left: 3px solid red;
 	padding-left: 10rpx;
 	margin-bottom: 30rpx;
@@ -79,7 +82,8 @@ view.before-scroll {
 .todelete{
 	margin-bottom: 30rpx;
 }
-.action-share button[size="mini"]{
+.action-share button[size="mini"],
+.action-fav button[size="mini"]{
 	font-size: 12px;
 	display: inline;
 	padding: 0;
@@ -90,12 +94,21 @@ view.before-scroll {
 	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/share.png') 0 center no-repeat;
 	background-size: 10px;
 }
-.action-share.shared button[size="mini"]{
+.action-fav button[size="mini"]{
+	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/favorite.png') 0 center no-repeat;
+
+}
+.action-share.shared button[size="mini"],
+.action-fav.faved button[size="mini"]{
 	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/share1.png') 0 center no-repeat;
 	background-size: 10px;
 	color: grey;
 }
-.action-share button[size="mini"]::after{
+.action-fav.faved button[size="mini"]{
+	background: url('http://ybzxlive.bj.bcebos.com/wxapp/ybzx/icos/favorite1.png') 0 center no-repeat;
+}
+.action-share button[size="mini"]::after,
+.action-fav button[size="mini"]::after{
 	width: 0;
 	height: 0;
 }

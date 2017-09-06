@@ -5,13 +5,15 @@
 // 此处主机域名是腾讯云解决方案分配的域名
 // 小程序后台服务解决方案：https://www.qcloud.com/solution/la
 
-var host = "wxapi.d.yongbuzhixi.com/api"
+var host = "wxapi.bce2.yongbuzhixi.com/api"
 
 var config = {
 
     // 下面的地址配合云端 Server 工作
     host,
-
+    // http://localhost:3000/api/wp/getgrace/5/1 获取最新5个
+    getGraceListUrl: `https://${host}/wp/getgrace`,
+    restGraceViewCount: `https://${host}/wp/views/counter`,
     // 登录地址，用于建立会话
     loginUrl: `https://${host}/login`,
 

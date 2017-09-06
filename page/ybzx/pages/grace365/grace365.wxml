@@ -1,41 +1,42 @@
 <import src="../../../common/foot.wxml" />
 
+<import src="../../../wxParse/wxParse.wxml"/>
 <!--index.wxml-->
 <view class="container">
 
   <view class="page-body">
-    <view class="page-section todelete autoplay">
-      <video id="myVideo" src="{{currentVideoUrl}}"  objectFit="fill" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
-      <view class="video-action"  wx:if="{{1}}">
+    <view class="page-section">
+      <video id="myVideo" autoplay src="{{currentVideoUrl}}"  objectFit="fill" binderror="videoErrorCallback" danmu-list="{{danmuList}}" controls poster="http://ybzxlive.cdn.bcebos.com/wxapp/ybzx/images/albums_grace365_v2.jpg"></video>
+      <view class="video-action"  wx:if="{{0}}">
         <view class="statics">
-          <text>播放：{{currentVideo.currentVideoIndex}}次</text>
+          <text>播放：{{viewCounts}}次</text>
         </view>
         <view class="actions">
           <view class="action action-share {{isShared?'shared':''}}" bindtap="tapShare">
             <button open-type="share" class="mini-btn" type="default" size="mini">分享</button>
           </view>
 
-          <view class="flex-row" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
-            <view class="action">
-              <image src="../../resources/icos/favorite.png" background-size="cover"></image>
-              <text class="favorite js-add-favorite " data-user_favored="0">收藏</text>
+          <view class="flex-row">
+            <view class="action action-fav">
+              <button wx:if="{{!hasUserInfo && canIUse}}"  open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="mini-btn" type="default" size="mini">收藏</button>
+              <!-- <image src="../../resources/icos/favorite.png" background-size="cover"></image>
+              <text class="favorite js-add-favorite " data-user_favored="0">收藏</text> -->
+
+              <block wx:else>
+                <view class="action action-fav faved">
+                  <button class="mini-btn" type="default" size="mini">收藏</button>
+                  <!-- <image src="../../resources/icos/favorite1.png" background-size="cover"></image>
+                  <text class="favorite js-add-favorite " data-user_favored="0">收藏</text> -->
+                </view>
+              </block>
+
             </view>
             <view class="action">
               <image src="../../resources/icos/like.png" background-size="cover"></image>
-              <text class="like likeAjax " data-user_liked="0">{{500-currentVideo.currentVideoIndex}}</text>
+              <text class="like likeAjax " data-user_liked="0">{{500-currentVideo.id}}</text>
             </view>
           </view>
 
-          <block wx:else>
-            <view class="action">
-              <image src="../../resources/icos/favorite.png" background-size="cover"></image>
-              <text class="favorite js-add-favorite " data-user_favored="0">收藏3</text>
-            </view>
-            <view class="action">
-              <image src="../../resources/icos/like.png" background-size="cover"></image>
-              <text class="like likeAjax " data-user_liked="0">{{500}}</text>
-            </view>
-          </block>
         </view>
       </view>
     </view>
@@ -45,16 +46,17 @@
       <view class="video-head flex-row">
         <view class="video-info">
           <text class="title">{{currentVideo.title}}</text>
-          <text class="statics">{{currentVideo.date}} 恩典365</text>
+          <text class="statics">{{currentVideo.video_date}} 恩典365</text>
         </view>
         <view class="playNext">
-          <button  class="mini-btn" type="primary" size="mini"  plain="true" id="playNext" data-current="{{currentVideo.currentVideoIndex}}" bindtap="playNext" >下一集</button>
+          <button  class="mini-btn" type="primary" size="mini"  plain="true" id="playNext" data-current="{{pid}}" bindtap="playNext" >下一集</button>
         </view>
       </view>
       <view class="before-scroll"></view>
-      <scroll-view  scroll-y="true" style="height: 500rpx;" enable-back-to-top="true"  class="article">
-        <text class="text" selectable="true">{{currentVideoContents.section1}}</text>
-        <text class="quotes" selectable="true">{{currentVideoContents.section2}}</text>
+      <scroll-view  scroll-y="true" style="height: 560rpx;" enable-back-to-top="true"  class="article">
+        <view class="text">
+          <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
+        </view>
       </scroll-view>
     </view>
     <!-- <view class="page-section">

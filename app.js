@@ -1,4 +1,5 @@
 const openIdUrl = require('./config').openIdUrl
+const util = require('./util/util.js')
 
 App({
   globalData: {
